@@ -35,10 +35,9 @@ local function GetMetaData(filePath)
         
         
         if line:match("AudioFilename") then
-            -- trim 
             metaData.audioFilename = line:match("AudioFilename:(.*)"):gsub("^%s*(.-)%s*$", "%1") 
         end
-        -- if after line containing "[Events]", there is a line containing a word ending with .jpg or .png or .jpeg, then that is the background image
+        
         if line:match("%[Events%]") then
             for line in file:lines() do
                 if line:match(".*%.jpg") or line:match(".*%.png") or line:match(".*%.jpeg") then
@@ -56,22 +55,17 @@ end
 
 
 local function getAvaiableMapFolders()
-    -- Get all folders in the maps folder
+ 
     local folders = love.filesystem.getDirectoryItems("maps")
-    -- Create a table to store the folders that contain a .osu file
     local mapFolders = {}
-    -- Loop through all folders
+
     for i, folder in ipairs(folders) do
-        -- Get all files in the folder
         local files = love.filesystem.getDirectoryItems("maps/" .. folder)
-        -- Loop through all files
+     
         for i, file in ipairs(files) do
-            -- Check if the file is a .osu file
             if string.sub(file, -4) == ".osu" then
-                -- Add the folder to the mapFolders table
                 --print("Found map folder: " .. folder)
                 table.insert(mapFolders, folder)
-                -- Break the loop
                 break
             end
         end
